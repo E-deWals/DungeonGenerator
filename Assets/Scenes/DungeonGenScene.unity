@@ -242,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   height: 50
+  minRoomSize: 5
   generationTypes: 1
 --- !u!4 &801863952
 Transform:
