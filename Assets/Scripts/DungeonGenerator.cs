@@ -10,7 +10,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private float horizontalBias = 0.50f;
 
     List<RectInt> toDo = new();
-    public List<RectInt> done = new();
+    [HideInInspector]public List<RectInt> done = new();
     private enum GenerationType {Horizontal, Vertical, both, random}
     [SerializeField] private GenerationType generationTypes;
 
@@ -37,18 +37,22 @@ public class DungeonGenerator : MonoBehaviour
                 SplitMixed(toDo[listNumber]);
             }
         }
+        if (TryGetComponent(out DoorGenerator doorgenerator))
+        {
+            doorgenerator.StartDoorGeneration();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
+        //foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
 
-        foreach (RectInt room in done)
-        {
-            AlgorithmsUtils.DebugRectInt(room, Color.red);
-        }
+        //foreach (RectInt room in done)
+        //{
+        //    AlgorithmsUtils.DebugRectInt(room, Color.red);
+        //}
 
 
     }
