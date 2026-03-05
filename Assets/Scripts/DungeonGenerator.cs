@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -12,7 +10,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private float horizontalBias = 0.50f;
 
     List<RectInt> toDo = new();
-    List<RectInt> done = new();
+    public List<RectInt> done = new();
     private enum GenerationType {Horizontal, Vertical, both, random}
     [SerializeField] private GenerationType generationTypes;
 
@@ -23,17 +21,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         RectInt startRoom = new RectInt(0, 0, width, height);
         toDo.Add(startRoom);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        //RectInt startRoom = new RectInt(0, 0, width, height);
-        //AlgorithmsUtils.DebugRectInt(startRoom, Color.magenta);
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
         while (listNumber < toDo.Count)
         {
             if (generationTypes == GenerationType.Horizontal)
@@ -49,16 +37,24 @@ public class DungeonGenerator : MonoBehaviour
                 SplitMixed(toDo[listNumber]);
             }
         }
-        //}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
-        foreach (RectInt room in done) AlgorithmsUtils.DebugRectInt(room, Color.red);
+
+        foreach (RectInt room in done)
+        {
+            AlgorithmsUtils.DebugRectInt(room, Color.red);
+        }
+
 
     }
 
     private void SplitHorizontal(RectInt startRoom)
     {
-        //Debug.Log("INPUT:" + startRoom);
 
 
         int widthRoom1 = Random.Range(0 + minRoomSize , startRoom.width - minRoomSize);
@@ -86,7 +82,6 @@ public class DungeonGenerator : MonoBehaviour
 
     private void SplitVertical(RectInt startRoom)
     {
-        //Debug.Log("Input:" + startRoom);
 
         int lengthRoom1 = Random.Range(0 + minRoomSize, startRoom.height - minRoomSize);
 
