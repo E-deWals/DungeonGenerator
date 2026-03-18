@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int minRoomSize = 5;
     [Tooltip("number between 0 and 1")] 
     [SerializeField] private float horizontalBias = 0.50f;
+    [SerializeField] private int roomToCheck;
 
     List<RectInt> toDo = new();
     [HideInInspector]public List<RectInt> done = new();
@@ -17,8 +19,14 @@ public class DungeonGenerator : MonoBehaviour
     private int listNumber = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Button("Generate dungeon", EButtonEnableMode.Playmode)]
     void Start()
     {
+        //clears lists to regenerate
+        done.Clear();
+        toDo.Clear();
+        listNumber = 0;
+
         RectInt startRoom = new RectInt(0, 0, width, height);
         toDo.Add(startRoom);
 
@@ -37,22 +45,18 @@ public class DungeonGenerator : MonoBehaviour
                 SplitMixed(toDo[listNumber]);
             }
         }
-        if (TryGetComponent(out DoorGenerator doorgenerator))
-        {
-            doorgenerator.StartDoorGeneration();
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
+        foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
 
-        //foreach (RectInt room in done)
-        //{
-        //    AlgorithmsUtils.DebugRectInt(room, Color.red);
-        //}
+        for (int i = 0; i < done.Count; i++)
+        {
+            AlgorithmsUtils.DebugRectInt(done[i], i == roomToCheck ? Color.blue : Color.red);
+        }
 
 
     }
@@ -84,6 +88,7 @@ public class DungeonGenerator : MonoBehaviour
 
     }
 
+    
     private void SplitVertical(RectInt startRoom)
     {
 
