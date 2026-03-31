@@ -1,17 +1,31 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Analytics;
 
 public class DoorGenerator : MonoBehaviour
 {
     [SerializeField] private int doorwidth;
-    [SerializeField] private int roomToCheck ;
+    [SerializeField] private int roomToCheck;
     private DungeonGenerator dungeonGenerator;
 
-    private List<RectInt> toDo = new();
+    private List<RectInt> roomList = new();
     private List<RectInt> done = new();
-    private Dictionary<int,List<int>> connectedRooms = new();
+    private Dictionary<int, List<int>> connectedRooms = new();
+    
+    private Dictionary<Node, List<Node>> myGraph = new();
+
+    Dictionary<RectInt, Node> myNodes = new();
+
+    public class Node
+    {
+        public RectInt rect;
+        public enum Type { Room, Door };
+        public Type type;
+    }
+
+
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,7 +33,7 @@ public class DoorGenerator : MonoBehaviour
     private void Awake()
     {
         dungeonGenerator = GetComponent<DungeonGenerator>();
-        toDo = dungeonGenerator.done;
+        roomList = new(dungeonGenerator.done);
     }
     private void Update()
     {
@@ -32,11 +46,11 @@ public class DoorGenerator : MonoBehaviour
     public void StartDoorGeneration()
     {
         done.Clear();
-        for (int fromRoom = 0; fromRoom < toDo.Count; fromRoom++)
+        for (int fromRoom = 0; fromRoom < roomList.Count; fromRoom++)
         {
-            for (int toRoom = fromRoom + 1; toRoom < toDo.Count; toRoom++)
+            for (int toRoom = fromRoom + 1; toRoom < roomList.Count; toRoom++)
             {
-                RectInt overlap = AlgorithmsUtils.Intersect(toDo[fromRoom], toDo[toRoom]);
+                RectInt overlap = AlgorithmsUtils.Intersect(roomList[fromRoom], roomList[toRoom]);
                 if (overlap.width > overlap.height)
                 {
                     //moves corner right
@@ -162,4 +176,31 @@ public class DoorGenerator : MonoBehaviour
             Debug.Log("DFS completed, amount of rooms: " + discovered.Count);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        if (connectedRooms.Count == 0)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.yellow;
+
+        foreach (int roomIndex in connectedRooms.Keys)
+        {
+            RectInt room = dungeonGenerator.done[roomIndex];
+
+            Vector2 center = room.center;
+            Vector3 center3D = new Vector3(center.x, 0, center.y);
+
+            Gizmos.DrawSphere(center3D, 0.25f);
+
+            //for each connectedroom drawline between room and connectedroom
+
+            //Gizmos
+        }
+    }
+
+
+
 }
