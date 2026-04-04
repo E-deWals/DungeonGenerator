@@ -11,41 +11,45 @@ public class DoorGenerator : MonoBehaviour
     private DungeonGenerator dungeonGenerator;
 
     private List<RectInt> roomList = new();
-    private List<RectInt> done = new();
+    private List<RectInt> doors = new();
     private Dictionary<int, List<int>> connectedRooms = new();
-    
-    private Dictionary<Node, List<Node>> myGraph = new();
+    private Dictionary<int, List<int>> fromDoorToRoom = new();
 
-    Dictionary<RectInt, Node> myNodes = new();
+    //private Dictionary<Node, List<Node>> myGraph = new();
 
-    public class Node
-    {
-        public RectInt rect;
-        public enum Type { Room, Door };
-        public Type type;
-    }
+    //Dictionary<RectInt, Node> myNodes = new();
 
+    //public class Node
+    //{
+    //    public RectInt rect;
+    //    public enum Type { Room, Door };
+    //    public Type type;
+    //}
 
-    
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //public void Addnode(RectInt node)
+    //{
+    //    if (!myNodes.ContainsKey(node))
+    //    {
+    //        myNodes.Add(node, new());
+    //    }
+    //}
 
     private void Awake()
     {
         dungeonGenerator = GetComponent<DungeonGenerator>();
-        roomList = new(dungeonGenerator.done);
+        roomList = dungeonGenerator.done;
     }
     private void Update()
     {
-        for (int i = 0; i < done.Count; i++)
+        for (int i = 0; i < doors.Count; i++)
         {
-            AlgorithmsUtils.DebugRectInt(done[i], i == 0 ? Color.blue : Color.magenta);
+            AlgorithmsUtils.DebugRectInt(doors[i], i == 0 ? Color.blue : Color.magenta);
         }
     }
     [Button("Generate door", EButtonEnableMode.Playmode)]
     public void StartDoorGeneration()
     {
-        done.Clear();
+        doors.Clear();
         for (int fromRoom = 0; fromRoom < roomList.Count; fromRoom++)
         {
             for (int toRoom = fromRoom + 1; toRoom < roomList.Count; toRoom++)
@@ -85,10 +89,9 @@ public class DoorGenerator : MonoBehaviour
 
                 if (overlap.width != 0 && overlap.height != 0)
                 {
-                    HandleNotes(fromRoom, toRoom);
-                    done.Add(overlap);
+                    doors.Add(overlap);
+                    HandleNodes(fromRoom, toRoom);
                 }
-
             }
         }
         //bootcamp code for showing notes
@@ -98,8 +101,9 @@ public class DoorGenerator : MonoBehaviour
         //}
     }
 
-    private void HandleNotes(int fromRoom, int toRoom)
+    private void HandleNodes(int fromRoom, int toRoom)
     {
+        //connected rooms
         if (!connectedRooms.ContainsKey(fromRoom))
         {
             connectedRooms[fromRoom] = new();
@@ -108,9 +112,17 @@ public class DoorGenerator : MonoBehaviour
         {
             connectedRooms[toRoom] = new();
         }
+        if (!fromDoorToRoom.ContainsKey(doors.Count - 1))
+        {
+            fromDoorToRoom[doors.Count - 1] = new();
+        }
 
         connectedRooms[fromRoom].Add(toRoom);
         connectedRooms[toRoom].Add(fromRoom);
+
+        fromDoorToRoom[doors.Count - 1].Add(toRoom);
+        fromDoorToRoom[doors.Count - 1].Add(fromRoom);
+
 
     }
 
@@ -194,10 +206,25 @@ public class DoorGenerator : MonoBehaviour
             Vector3 center3D = new Vector3(center.x, 0, center.y);
 
             Gizmos.DrawSphere(center3D, 0.25f);
+        }
 
-            //for each connectedroom drawline between room and connectedroom
+        foreach (int doorIndex in fromDoorToRoom.Keys)
+        {
+            RectInt door = doors[doorIndex];
+            Vector2 doorCenter = door.center;
+            Vector3 doorCenter3D = new Vector3(doorCenter.x, 0, doorCenter.y);
 
-            //Gizmos
+
+            Gizmos.DrawSphere(doorCenter3D, 0.25f);
+
+            foreach (int roomIndex in fromDoorToRoom[doorIndex])
+            {
+                RectInt room = roomList[roomIndex];
+                Vector2 roomCenter = room.center;
+                Vector3 roomCenter3D = new Vector3(roomCenter.x, 0, roomCenter.y);
+
+                Gizmos.DrawLine(doorCenter3D, roomCenter3D);
+            }
         }
     }
 
