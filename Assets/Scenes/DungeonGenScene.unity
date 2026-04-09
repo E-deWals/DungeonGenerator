@@ -245,6 +245,7 @@ MonoBehaviour:
   height: 50
   minRoomSize: 10
   horizontalBias: 0.5
+  roomToCheck: 0
   done: []
   generationTypes: 2
 --- !u!4 &801863952
@@ -274,7 +275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d7e3eed4e23d14a9435fab4e7dc9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorwidth: 1
+  doorwidth: 2
+  roomToCheck: 0
+  doors: []
 --- !u!1 &1479775037
 GameObject:
   m_ObjectHideFlags: 0

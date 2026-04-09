@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -17,14 +18,23 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GenerationType generationTypes;
 
     private int listNumber = 0;
+    private DoorGenerator doorGenerator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Button("Generate dungeon", EButtonEnableMode.Playmode)]
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
+        doorGenerator = GetComponent<DoorGenerator>();
         //clears lists to regenerate
+        doorGenerator.doors.Clear();
+        doorGenerator.connectedRooms.Clear();
+        doorGenerator.fromDoorToRoom.Clear();
         done.Clear();
         toDo.Clear();
+
         listNumber = 0;
 
         RectInt startRoom = new RectInt(0, 0, width, height);

@@ -11,9 +11,9 @@ public class DoorGenerator : MonoBehaviour
     private DungeonGenerator dungeonGenerator;
 
     private List<RectInt> roomList = new();
-    private List<RectInt> doors = new();
-    private Dictionary<int, List<int>> connectedRooms = new();
-    private Dictionary<int, List<int>> fromDoorToRoom = new();
+    [HideInInspector]public List<RectInt> doors = new();
+    public Dictionary<int, List<int>> connectedRooms = new();
+    public Dictionary<int, List<int>> fromDoorToRoom = new();
 
     //private Dictionary<Node, List<Node>> myGraph = new();
 
@@ -50,6 +50,8 @@ public class DoorGenerator : MonoBehaviour
     public void StartDoorGeneration()
     {
         doors.Clear();
+        connectedRooms.Clear();
+        fromDoorToRoom.Clear();
         for (int fromRoom = 0; fromRoom < roomList.Count; fromRoom++)
         {
             for (int toRoom = fromRoom + 1; toRoom < roomList.Count; toRoom++)
