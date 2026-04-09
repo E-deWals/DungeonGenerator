@@ -1,8 +1,6 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class DoorGenerator : MonoBehaviour
 {
@@ -10,32 +8,16 @@ public class DoorGenerator : MonoBehaviour
     [SerializeField] private int roomToCheck;
     private DungeonGenerator dungeonGenerator;
 
-    private List<RectInt> roomList = new();
+    [HideInInspector]public List<RectInt> roomList = new();
     [HideInInspector]public List<RectInt> doors = new();
     public Dictionary<int, List<int>> connectedRooms = new();
     public Dictionary<int, List<int>> fromDoorToRoom = new();
 
-    //private Dictionary<Node, List<Node>> myGraph = new();
-
-    //Dictionary<RectInt, Node> myNodes = new();
-
-    //public class Node
-    //{
-    //    public RectInt rect;
-    //    public enum Type { Room, Door };
-    //    public Type type;
-    //}
-
-    //public void Addnode(RectInt node)
-    //{
-    //    if (!myNodes.ContainsKey(node))
-    //    {
-    //        myNodes.Add(node, new());
-    //    }
-    //}
+    private NodeGenerator nodeGenerator;
 
     private void Awake()
     {
+        nodeGenerator = GetComponent<NodeGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
         roomList = dungeonGenerator.done;
     }
@@ -92,7 +74,7 @@ public class DoorGenerator : MonoBehaviour
                 if (overlap.width != 0 && overlap.height != 0)
                 {
                     doors.Add(overlap);
-                    HandleNodes(fromRoom, toRoom);
+                    nodeGenerator.HandleNodes(fromRoom, toRoom);
                 }
             }
         }
@@ -101,31 +83,6 @@ public class DoorGenerator : MonoBehaviour
         //{
         //    Debug.Log($"{node.Key}: {string.Join(", ", node.Value)}");
         //}
-    }
-
-    private void HandleNodes(int fromRoom, int toRoom)
-    {
-        //connected rooms
-        if (!connectedRooms.ContainsKey(fromRoom))
-        {
-            connectedRooms[fromRoom] = new();
-        }
-        if (!connectedRooms.ContainsKey(toRoom))
-        {
-            connectedRooms[toRoom] = new();
-        }
-        if (!fromDoorToRoom.ContainsKey(doors.Count - 1))
-        {
-            fromDoorToRoom[doors.Count - 1] = new();
-        }
-
-        connectedRooms[fromRoom].Add(toRoom);
-        connectedRooms[toRoom].Add(fromRoom);
-
-        fromDoorToRoom[doors.Count - 1].Add(toRoom);
-        fromDoorToRoom[doors.Count - 1].Add(fromRoom);
-
-
     }
 
     public List<int> GetNeighbors(int node)
@@ -190,46 +147,4 @@ public class DoorGenerator : MonoBehaviour
             Debug.Log("DFS completed, amount of rooms: " + discovered.Count);
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        if (connectedRooms.Count == 0)
-        {
-            return;
-        }
-
-        Gizmos.color = Color.yellow;
-
-        foreach (int roomIndex in connectedRooms.Keys)
-        {
-            RectInt room = dungeonGenerator.done[roomIndex];
-
-            Vector2 center = room.center;
-            Vector3 center3D = new Vector3(center.x, 0, center.y);
-
-            Gizmos.DrawSphere(center3D, 0.25f);
-        }
-
-        foreach (int doorIndex in fromDoorToRoom.Keys)
-        {
-            RectInt door = doors[doorIndex];
-            Vector2 doorCenter = door.center;
-            Vector3 doorCenter3D = new Vector3(doorCenter.x, 0, doorCenter.y);
-
-
-            Gizmos.DrawSphere(doorCenter3D, 0.25f);
-
-            foreach (int roomIndex in fromDoorToRoom[doorIndex])
-            {
-                RectInt room = roomList[roomIndex];
-                Vector2 roomCenter = room.center;
-                Vector3 roomCenter3D = new Vector3(roomCenter.x, 0, roomCenter.y);
-
-                Gizmos.DrawLine(doorCenter3D, roomCenter3D);
-            }
-        }
-    }
-
-
-
 }

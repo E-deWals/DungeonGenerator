@@ -19,6 +19,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private int listNumber = 0;
     private DoorGenerator doorGenerator;
+    private NodeGenerator nodeGenerator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Button("Generate dungeon", EButtonEnableMode.Playmode)]
@@ -28,6 +29,7 @@ public class DungeonGenerator : MonoBehaviour
     void Start()
     {
         doorGenerator = GetComponent<DoorGenerator>();
+        nodeGenerator = GetComponent<NodeGenerator>();
         //clears lists to regenerate
         doorGenerator.doors.Clear();
         doorGenerator.connectedRooms.Clear();
@@ -60,7 +62,6 @@ public class DungeonGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
 
         for (int i = 0; i < done.Count; i++)
@@ -68,13 +69,10 @@ public class DungeonGenerator : MonoBehaviour
             AlgorithmsUtils.DebugRectInt(done[i], i == roomToCheck ? Color.blue : Color.red);
         }
 
-
     }
 
     private void SplitHorizontal(RectInt startRoom)
     {
-
-
         int widthRoom1 = Random.Range(0 + minRoomSize , startRoom.width - minRoomSize);
 
         if (startRoom.width > minRoomSize * 2)
