@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class NodeGenerator : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class NodeGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        connectedRooms.Clear();
+        fromDoorToRoom.Clear();
+
         doorGenerator = GetComponent<DoorGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
     }
-    public void HandleNodes(int fromRoom, int toRoom)
+
+    public IEnumerator HandleNodes(int fromRoom, int toRoom)
     {
+
         //connected rooms
         if (!connectedRooms.ContainsKey(fromRoom))
         {
@@ -38,11 +44,12 @@ public class NodeGenerator : MonoBehaviour
         fromDoorToRoom[doorGenerator.doors.Count - 1].Add(toRoom);
         fromDoorToRoom[doorGenerator.doors.Count - 1].Add(fromRoom);
 
-
+        yield return new WaitForSeconds(0.1f);
     }
     private void OnDrawGizmos()
     {
         roomList = doorGenerator.roomList;
+
         if (connectedRooms.Count == 0)
         {
             return;

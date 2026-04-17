@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class DoorGenerator : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class DoorGenerator : MonoBehaviour
         }
     }
     [Button("Generate door", EButtonEnableMode.Playmode)]
-    public void StartDoorGeneration()
+    public IEnumerator StartDoorGeneration()
     {
         doors.Clear();
         connectedRooms.Clear();
@@ -74,8 +75,9 @@ public class DoorGenerator : MonoBehaviour
                 if (overlap.width != 0 && overlap.height != 0)
                 {
                     doors.Add(overlap);
-                    nodeGenerator.HandleNodes(fromRoom, toRoom);
+                    StartCoroutine(nodeGenerator.HandleNodes(fromRoom, toRoom));    
                 }
+                yield return new WaitForSeconds(-.1f);
             }
         }
         //bootcamp code for showing notes

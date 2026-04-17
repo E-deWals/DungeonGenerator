@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using System.Collections;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -27,6 +27,11 @@ public class DungeonGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
+    {
+        StartCoroutine(GenerateRooms());
+    }
+
+    private IEnumerator GenerateRooms()
     {
         doorGenerator = GetComponent<DoorGenerator>();
         nodeGenerator = GetComponent<NodeGenerator>();
@@ -56,7 +61,9 @@ public class DungeonGenerator : MonoBehaviour
             {
                 SplitMixed(toDo[listNumber]);
             }
+            yield return new WaitForSeconds(0.1f);
         }
+        
     }
 
     // Update is called once per frame
