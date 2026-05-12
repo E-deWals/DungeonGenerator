@@ -142,4 +142,9 @@ public class DungeonGenerator : MonoBehaviour
         listNumber++;
     }
 
+    public RectInt GetBounds()
+    {
+        RectInt dungeonBounds = new RectInt(0,0, width, height);
+        return dungeonBounds;
+    }
 }
