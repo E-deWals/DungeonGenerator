@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 
-[DefaultExecutionOrder(3)]
+
 public class TileMapGenerator : MonoBehaviour
 {
 
@@ -14,6 +14,8 @@ public class TileMapGenerator : MonoBehaviour
     DungeonGenerator dungeonGenerator;
     DoorGenerator doorGenerator;
 
+    GameObject parent; 
+
     [SerializeField] GameObject[] prefabsToSpawn = new GameObject[16];
     private int[,] _tileMap;
 
@@ -23,9 +25,13 @@ public class TileMapGenerator : MonoBehaviour
         doorGenerator = GetComponent<DoorGenerator>();
     }
 
-    [Button]
+    [Button("generate Tilemap", EButtonEnableMode.Playmode)]
     public void GenerateTileMap()
     {
+        if (parent != null) { Destroy (parent); }
+
+        parent = new GameObject ("walls");
+
         int[,] tileMap = new int[dungeonGenerator.GetBounds().height, dungeonGenerator.GetBounds().width];
         int rows = tileMap.GetLength(0);
         int cols = tileMap.GetLength(1);
@@ -51,9 +57,11 @@ public class TileMapGenerator : MonoBehaviour
                     continue;
                 }
 
-                Instantiate(prefabsToSpawn[caseToCheck], new Vector3(j + 1f, 0, i + 1f), transform.rotation);
+                GameObject wall = Instantiate(prefabsToSpawn[caseToCheck], new Vector3(j + 1f, 0, i + 1f), transform.rotation, parent.transform);
+                wall.name = "wall coordinates: " + j + " , " + i ;
 
             }
+
         }
         _tileMap = tileMap;
 
