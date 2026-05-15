@@ -1,11 +1,18 @@
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class FloorFillGenerator : MonoBehaviour
 {
-    private TileMapGenerator tileMapGenerator;
+   
     [SerializeField] private GameObject prefabToSpawn;
+    [SerializeField] private NavMeshSurface navMeshSurface;
+
+    private TileMapGenerator tileMapGenerator;
     private GameObject parent;
+
+
     private void Awake()
     {
         tileMapGenerator = GetComponent<TileMapGenerator>();
@@ -61,9 +68,11 @@ public class FloorFillGenerator : MonoBehaviour
 
             }
         }
-        //if (discovered.Count == connectedRooms.Count)
-        //{
-        //    Debug.Log("BFS completed, amount of rooms: " + discovered.Count);
-        //}
+        BakeNavMesh();
+    }
+
+    public void BakeNavMesh()
+    {
+        navMeshSurface.BuildNavMesh();
     }
 }
