@@ -13,19 +13,21 @@ public class TileMapGenerator : MonoBehaviour
     [SerializeField]
     DungeonGenerator dungeonGenerator;
     DoorGenerator doorGenerator;
+    FloorFillGenerator floorFillGenerator;
 
     GameObject parent; 
 
     [SerializeField] GameObject[] prefabsToSpawn = new GameObject[16];
-    private int[,] _tileMap;
+    public int[,] _tileMap;
 
     private void Start()
     {
         dungeonGenerator = GetComponent<DungeonGenerator>();
         doorGenerator = GetComponent<DoorGenerator>();
+        floorFillGenerator = GetComponent<FloorFillGenerator>();
     }
 
-    [Button("generate Tilemap", EButtonEnableMode.Playmode)]
+    [Button("", EButtonEnableMode.Playmode)]
     public void GenerateTileMap()
     {
         if (parent != null) { Destroy (parent); }
@@ -66,6 +68,7 @@ public class TileMapGenerator : MonoBehaviour
         _tileMap = tileMap;
 
         onTileMapGenerated.Invoke();
+        floorFillGenerator.BFS(dungeonGenerator.done[0].center);
     }
 
     public string ToString(bool flip)

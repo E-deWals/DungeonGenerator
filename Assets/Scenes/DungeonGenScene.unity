@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 801863953}
   - component: {fileID: 801863954}
   - component: {fileID: 801863955}
+  - component: {fileID: 801863956}
   m_Layer: 0
   m_Name: dungeonGenerator
   m_TagString: Untagged
@@ -326,6 +327,19 @@ MonoBehaviour:
   - {fileID: 5853187014843131501, guid: 272fb9cc01e08f247b43f7e6c38dfdfb, type: 3}
   - {fileID: 6898582374593550339, guid: ae8cbe638b9f7074dbc7244fb3c26600, type: 3}
   - {fileID: 0}
+--- !u!114 &801863956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801863950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a9a5928c56fc74b97cddcb7302fb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 3204687337251383887, guid: ee2ec93b0f8db314d99c5c4ca581bc18, type: 3}
 --- !u!1 &1479775037
 GameObject:
   m_ObjectHideFlags: 0

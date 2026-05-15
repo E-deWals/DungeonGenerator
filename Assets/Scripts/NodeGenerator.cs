@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
@@ -14,10 +13,6 @@ public class NodeGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        roomList.Clear();
-        connectedRooms.Clear();
-        fromDoorToRoom.Clear();
-
         doorGenerator = GetComponent<DoorGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
     }
@@ -74,7 +69,6 @@ public class NodeGenerator : MonoBehaviour
             Vector2 doorCenter = door.center;
             Vector3 doorCenter3D = new Vector3(doorCenter.x, 0, doorCenter.y);
 
-
             Gizmos.DrawSphere(doorCenter3D, 0.25f);
 
             foreach (int roomIndex in fromDoorToRoom[doorIndex])
@@ -86,5 +80,6 @@ public class NodeGenerator : MonoBehaviour
                 Gizmos.DrawLine(doorCenter3D, roomCenter3D);
             }
         }
+        
     }
 }
