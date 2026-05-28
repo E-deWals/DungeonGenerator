@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using NaughtyAttributes;
 using UnityEngine;
@@ -6,16 +7,15 @@ using UnityEngine.Events;
 
 public class TileMapGenerator : MonoBehaviour
 {
+    [SerializeField] private bool animate;
 
-    [SerializeField]
-    private UnityEvent onTileMapGenerated;
+    [SerializeField] private UnityEvent onTileMapGenerated;
 
-    [SerializeField]
-    DungeonGenerator dungeonGenerator;
-    DoorGenerator doorGenerator;
-    FloorFillGenerator floorFillGenerator;
+    private DungeonGenerator dungeonGenerator;
+    private DoorGenerator doorGenerator;
+    private FloorFillGenerator floorFillGenerator;
 
-    GameObject parent; 
+    private GameObject parent; 
 
     [SerializeField] GameObject[] prefabsToSpawn = new GameObject[16];
     public int[,] _tileMap;
@@ -28,7 +28,7 @@ public class TileMapGenerator : MonoBehaviour
     }
 
     [Button("", EButtonEnableMode.Playmode)]
-    public void GenerateTileMap()
+    public IEnumerator GenerateTileMap()
     {
         if (parent != null) { Destroy (parent); }
 
@@ -61,14 +61,12 @@ public class TileMapGenerator : MonoBehaviour
 
                 GameObject wall = Instantiate(prefabsToSpawn[caseToCheck], new Vector3(j + 1f, 0, i + 1f), transform.rotation, parent.transform);
                 wall.name = "wall coordinates: " + j + " , " + i ;
-
             }
-
+            if (animate) { yield return new WaitForSeconds(0.1f); }
         }
         _tileMap = tileMap;
 
         onTileMapGenerated.Invoke();
-        floorFillGenerator.BFS(dungeonGenerator.done[0].center);
     }
 
     public string ToString(bool flip)

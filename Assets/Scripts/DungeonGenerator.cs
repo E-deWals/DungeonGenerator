@@ -5,6 +5,7 @@ using System.Collections;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    [SerializeField] private bool animate;
     [SerializeField] private int width = 100;
     [SerializeField] private int height = 50;
     [SerializeField] private int minRoomSize = 5;
@@ -32,6 +33,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private IEnumerator GenerateRooms()
     {
+        
         doorGenerator = GetComponent<DoorGenerator>();
         //clears lists to regenerate
         doorGenerator.doors.Clear();
@@ -59,7 +61,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 SplitMixed(toDo[listNumber]);
             }
-            yield return new WaitForSeconds(0.1f);
+            if (animate) { yield return new WaitForSeconds(0.1f); }
         }
         
     }

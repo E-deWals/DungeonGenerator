@@ -5,6 +5,7 @@ using System.Collections;
 
 public class DoorGenerator : MonoBehaviour
 {
+    [SerializeField] private bool animate;
     [SerializeField] private int doorwidth;
     [SerializeField] private int roomToCheck;
     private DungeonGenerator dungeonGenerator;
@@ -78,7 +79,7 @@ public class DoorGenerator : MonoBehaviour
                     doors.Add(overlap);
                     StartCoroutine(nodeGenerator.HandleNodes(fromRoom, toRoom));    
                 }
-                yield return new WaitForSeconds(-.1f);
+                if (animate) { yield return new WaitForSeconds(0.1f); }
             }
         }
         //bootcamp code for showing notes
