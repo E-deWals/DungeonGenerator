@@ -19,7 +19,6 @@ public class DungeonGenerator : MonoBehaviour
 
     private int listNumber = 0;
     private DoorGenerator doorGenerator;
-    private NodeGenerator nodeGenerator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Button("Generate dungeon", EButtonEnableMode.Playmode)]
@@ -34,7 +33,6 @@ public class DungeonGenerator : MonoBehaviour
     private IEnumerator GenerateRooms()
     {
         doorGenerator = GetComponent<DoorGenerator>();
-        nodeGenerator = GetComponent<NodeGenerator>();
         //clears lists to regenerate
         doorGenerator.doors.Clear();
         doorGenerator.connectedRooms.Clear();

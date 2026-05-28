@@ -10,9 +10,11 @@ public class NodeGenerator : MonoBehaviour
 
     private DoorGenerator doorGenerator;
     private DungeonGenerator dungeonGenerator;
+    private SearchAlgorithm searchAlgorithm;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        searchAlgorithm = GetComponent<SearchAlgorithm>();
         doorGenerator = GetComponent<DoorGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
     }
@@ -44,6 +46,7 @@ public class NodeGenerator : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        if (doorGenerator == null) {  return; }
         roomList = doorGenerator.roomList;
 
         if (connectedRooms.Count == 0)
@@ -80,6 +83,6 @@ public class NodeGenerator : MonoBehaviour
                 Gizmos.DrawLine(doorCenter3D, roomCenter3D);
             }
         }
-        
+        searchAlgorithm.enabled = true;
     }
 }

@@ -20,6 +20,7 @@ public class DoorGenerator : MonoBehaviour
     {
         nodeGenerator = GetComponent<NodeGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
+        nodeGenerator.enabled = true;
         roomList = dungeonGenerator.done;
     }
     private void Update()
@@ -33,7 +34,7 @@ public class DoorGenerator : MonoBehaviour
     public IEnumerator StartDoorGeneration()
     {
         doors.Clear();
-        connectedRooms.Clear();
+       // connectedRooms.Clear();
         fromDoorToRoom.Clear();
         for (int fromRoom = 0; fromRoom < roomList.Count; fromRoom++)
         {
@@ -85,68 +86,81 @@ public class DoorGenerator : MonoBehaviour
         //{
         //    Debug.Log($"{node.Key}: {string.Join(", ", node.Value)}");
         //}
+
     }
 
-    public List<int> GetNeighbors(int node)
-    {
-        return new List<int>(connectedRooms[node]);
-    }
+    //public List<int> GetNeighbors(int node)
+    //{
+    //    if (connectedRooms.ContainsKey(node))
+    //    {
+    //        return new List<int>(connectedRooms[node]);
+    //    }
+    //    else
+    //    {
+    //        return new();
+    //    }
+    //}
 
-    [Button("BFS", EButtonEnableMode.Playmode)]
-    public void BFS()
-    {
-        int currentNode = 1;
 
-        HashSet<int> discovered = new();
-        Queue<int> queue = new();
-        queue.Enqueue(currentNode);
+    //[Button("BFS", EButtonEnableMode.Playmode)]
+    //public void BFS()
+    //{
+    //    Debug.Log("BFS");
+    //    int currentNode = 1;
 
-        while (queue.Count > 0)
-        {
-            currentNode = queue.Dequeue();
-            discovered.Add(currentNode);
-            foreach (var neighbor in GetNeighbors(currentNode))
-            {
-                if (!discovered.Contains(neighbor))
-                {
-                    queue.Enqueue(neighbor);
-                    discovered.Add(neighbor);
-                }
-            }
-        }
+    //    HashSet<int> discovered = new();
+    //    Queue<int> queue = new();
+    //    queue.Enqueue(currentNode);
 
-        if (discovered.Count == connectedRooms.Count)
-        {
-            Debug.Log("BFS completed, amount of rooms: " + discovered.Count);
-        }
-    }
+    //    while (queue.Count > 0)
+    //    {
+    //        currentNode = queue.Dequeue();
+    //        discovered.Add(currentNode);
+    //        foreach (var neighbor in GetNeighbors(currentNode))
+    //        {
+    //            if (!discovered.Contains(neighbor))
+    //            {
+    //                queue.Enqueue(neighbor);
+    //                discovered.Add(neighbor);
+    //                Debug.Log(neighbor);
+    //            }
+    //        }
+    //    }
 
-    [Button("DFS", EButtonEnableMode.Playmode)]
-    public void DFS()
-    {
-        int currentNode = 1;
+    //    if (discovered.Count == connectedRooms.Count)
+    //    {
+    //        Debug.Log("BFS completed, amount of rooms: " + discovered.Count);
+    //    }
 
-        HashSet<int> discovered = new();
-        Stack<int> stack = new();
-        stack.Push(currentNode);
+    //    Debug.Log(discovered.Count);
+    //}
 
-        while (stack.Count > 0)
-        {
-            currentNode = stack.Pop();
-            discovered.Add(currentNode);
-            foreach (var neighbor in GetNeighbors(currentNode))
-            {
-                if (!discovered.Contains(neighbor))
-                {
-                    stack.Push(neighbor);
-                    discovered.Add(neighbor);
-                }
-            }
-        }
+    //[Button("DFS", EButtonEnableMode.Playmode)]
+    //public void DFS()
+    //{
+    //    int currentNode = 1;
 
-        if (discovered.Count == connectedRooms.Count)
-        {
-            Debug.Log("DFS completed, amount of rooms: " + discovered.Count);
-        }
-    }
+    //    HashSet<int> discovered = new();
+    //    Stack<int> stack = new();
+    //    stack.Push(currentNode);
+
+    //    while (stack.Count > 0)
+    //    {
+    //        currentNode = stack.Pop();
+    //        discovered.Add(currentNode);
+    //        foreach (var neighbor in GetNeighbors(currentNode))
+    //        {
+    //            if (!discovered.Contains(neighbor))
+    //            {
+    //                stack.Push(neighbor);
+    //                discovered.Add(neighbor);
+    //            }
+    //        }
+    //    }
+
+    //    if (discovered.Count == connectedRooms.Count)
+    //    {
+    //        Debug.Log("DFS completed, amount of rooms: " + discovered.Count);
+    //    }
+    //}
 }
