@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861a4c3e723deda468292defe30e37a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animate: 0
+  animate: 1
   width: 100
   height: 50
   minRoomSize: 10
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d7e3eed4e23d14a9435fab4e7dc9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animate: 0
+  animate: 1
   doorwidth: 2
   roomToCheck: 0
   roomList: []
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba225b1aee59574b816f2a93d58fc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animate: 0
+  animate: 1
   onTileMapGenerated:
     m_PersistentCalls:
       m_Calls: []
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a9a5928c56fc74b97cddcb7302fb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animated: 0
+  animated: 1
   prefabToSpawn: {fileID: 3204687337251383887, guid: ee2ec93b0f8db314d99c5c4ca581bc18, type: 3}
   navMeshSurface: {fileID: 1951844220}
 --- !u!114 &801863957
