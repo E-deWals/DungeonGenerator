@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 801863951}
   - component: {fileID: 801863953}
   - component: {fileID: 801863954}
+  - component: {fileID: 801863957}
   - component: {fileID: 801863955}
   - component: {fileID: 801863956}
   m_Layer: 0
@@ -273,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861a4c3e723deda468292defe30e37a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animate: 0
   width: 100
   height: 50
   minRoomSize: 10
@@ -307,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d7e3eed4e23d14a9435fab4e7dc9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animate: 0
   doorwidth: 2
   roomToCheck: 0
   roomList: []
@@ -318,7 +321,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801863950}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43a63f2797589ed4c86a54fff747d495, type: 3}
   m_Name: 
@@ -335,10 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba225b1aee59574b816f2a93d58fc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animate: 0
   onTileMapGenerated:
     m_PersistentCalls:
       m_Calls: []
-  dungeonGenerator: {fileID: 0}
   prefabsToSpawn:
   - {fileID: 0}
   - {fileID: 5967930082345930632, guid: a9b3b91ceb6f1134ca74cce01b6a78a8, type: 3}
@@ -368,8 +371,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a9a5928c56fc74b97cddcb7302fb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animated: 0
   prefabToSpawn: {fileID: 3204687337251383887, guid: ee2ec93b0f8db314d99c5c4ca581bc18, type: 3}
   navMeshSurface: {fileID: 1951844220}
+--- !u!114 &801863957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801863950}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d66712bbf8ff7449bfdfbb93aeb9a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1479775037
 GameObject:
   m_ObjectHideFlags: 0
