@@ -6,6 +6,7 @@ using System.Collections;
 public class DungeonGenerator : MonoBehaviour
 {
     [SerializeField] private bool animate;
+    [SerializeField] private int seed; 
     [SerializeField] private int width = 100;
     [SerializeField] private int height = 50;
     [SerializeField] private int minRoomSize = 5;
@@ -21,20 +22,19 @@ public class DungeonGenerator : MonoBehaviour
     private int listNumber = 0;
     private DoorGenerator doorGenerator;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Button("Generate dungeon", EButtonEnableMode.Playmode)]
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
+        doorGenerator = GetComponent<DoorGenerator>();
         StartCoroutine(GenerateRooms());
     }
 
     private IEnumerator GenerateRooms()
     {
+        Random.InitState(seed); // initializes seed
         
-        doorGenerator = GetComponent<DoorGenerator>();
         //clears lists to regenerate
         doorGenerator.doors.Clear();
         doorGenerator.connectedRooms.Clear();
@@ -66,7 +66,6 @@ public class DungeonGenerator : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         foreach (RectInt room in toDo) AlgorithmsUtils.DebugRectInt(room, Color.green);
