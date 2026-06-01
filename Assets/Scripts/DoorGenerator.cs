@@ -21,11 +21,13 @@ public class DoorGenerator : MonoBehaviour
     {
         nodeGenerator = GetComponent<NodeGenerator>();
         dungeonGenerator = GetComponent<DungeonGenerator>();
+
         nodeGenerator.enabled = true;
         roomList = dungeonGenerator.done;
     }
     private void Update()
     {
+        //draws the doors
         for (int i = 0; i < doors.Count; i++)
         {
             AlgorithmsUtils.DebugRectInt(doors[i], i == 0 ? Color.blue : Color.magenta);
@@ -35,8 +37,10 @@ public class DoorGenerator : MonoBehaviour
     public IEnumerator StartDoorGeneration()
     {
         doors.Clear();
-       // connectedRooms.Clear();
         fromDoorToRoom.Clear();
+
+        //compares every room to every room other then itself and sees if there is an overlap
+        //creates a door based on said overlap and makes sure that the placement is valid 
         for (int fromRoom = 0; fromRoom < roomList.Count; fromRoom++)
         {
             for (int toRoom = fromRoom + 1; toRoom < roomList.Count; toRoom++)
@@ -44,7 +48,7 @@ public class DoorGenerator : MonoBehaviour
                 RectInt overlap = AlgorithmsUtils.Intersect(roomList[fromRoom], roomList[toRoom]);
                 if (overlap.width > overlap.height)
                 {
-                    //moves corner right
+                    //moves corner right to prevent corner doors
                     overlap.x += overlap.height;
                     overlap.width -= overlap.height * 2;
 
@@ -60,7 +64,7 @@ public class DoorGenerator : MonoBehaviour
                 }
                 else
                 {
-                    //moves corner up
+                    //moves corner up to prevent corner doors
                     overlap.y += overlap.width;
                     overlap.height -= overlap.width * 2;
 
@@ -82,86 +86,5 @@ public class DoorGenerator : MonoBehaviour
                 if (animate) { yield return new WaitForSeconds(0.1f); }
             }
         }
-        //bootcamp code for showing notes
-        //foreach (var node in connectedRooms)
-        //{
-        //    Debug.Log($"{node.Key}: {string.Join(", ", node.Value)}");
-        //}
-
     }
-
-    //public List<int> GetNeighbors(int node)
-    //{
-    //    if (connectedRooms.ContainsKey(node))
-    //    {
-    //        return new List<int>(connectedRooms[node]);
-    //    }
-    //    else
-    //    {
-    //        return new();
-    //    }
-    //}
-
-
-    //[Button("BFS", EButtonEnableMode.Playmode)]
-    //public void BFS()
-    //{
-    //    Debug.Log("BFS");
-    //    int currentNode = 1;
-
-    //    HashSet<int> discovered = new();
-    //    Queue<int> queue = new();
-    //    queue.Enqueue(currentNode);
-
-    //    while (queue.Count > 0)
-    //    {
-    //        currentNode = queue.Dequeue();
-    //        discovered.Add(currentNode);
-    //        foreach (var neighbor in GetNeighbors(currentNode))
-    //        {
-    //            if (!discovered.Contains(neighbor))
-    //            {
-    //                queue.Enqueue(neighbor);
-    //                discovered.Add(neighbor);
-    //                Debug.Log(neighbor);
-    //            }
-    //        }
-    //    }
-
-    //    if (discovered.Count == connectedRooms.Count)
-    //    {
-    //        Debug.Log("BFS completed, amount of rooms: " + discovered.Count);
-    //    }
-
-    //    Debug.Log(discovered.Count);
-    //}
-
-    //[Button("DFS", EButtonEnableMode.Playmode)]
-    //public void DFS()
-    //{
-    //    int currentNode = 1;
-
-    //    HashSet<int> discovered = new();
-    //    Stack<int> stack = new();
-    //    stack.Push(currentNode);
-
-    //    while (stack.Count > 0)
-    //    {
-    //        currentNode = stack.Pop();
-    //        discovered.Add(currentNode);
-    //        foreach (var neighbor in GetNeighbors(currentNode))
-    //        {
-    //            if (!discovered.Contains(neighbor))
-    //            {
-    //                stack.Push(neighbor);
-    //                discovered.Add(neighbor);
-    //            }
-    //        }
-    //    }
-
-    //    if (discovered.Count == connectedRooms.Count)
-    //    {
-    //        Debug.Log("DFS completed, amount of rooms: " + discovered.Count);
-    //    }
-    //}
 }
