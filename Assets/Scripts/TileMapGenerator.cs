@@ -8,12 +8,10 @@ using UnityEngine.Events;
 public class TileMapGenerator : MonoBehaviour
 {
     [SerializeField] private bool animate;
-
     [SerializeField] private UnityEvent onTileMapGenerated;
 
     private DungeonGenerator dungeonGenerator;
     private DoorGenerator doorGenerator;
-    private FloorFillGenerator floorFillGenerator;
 
     private GameObject parent; 
 
@@ -24,7 +22,6 @@ public class TileMapGenerator : MonoBehaviour
     {
         dungeonGenerator = GetComponent<DungeonGenerator>();
         doorGenerator = GetComponent<DoorGenerator>();
-        floorFillGenerator = GetComponent<FloorFillGenerator>();
     }
 
     [Button("", EButtonEnableMode.Playmode)]
@@ -48,7 +45,7 @@ public class TileMapGenerator : MonoBehaviour
             AlgorithmsUtils.FillRectangle(tileMap, door, 0);
         }
         
-
+        //goes through each row to check if it has to place a wall and if it does checks wich wall to place
         for (int i = 0; i < rows - 1; i++)
         {
             for (int j = 0; j < cols - 1; j++)
@@ -65,45 +62,11 @@ public class TileMapGenerator : MonoBehaviour
             if (animate) { yield return new WaitForSeconds(0.1f); }
         }
         _tileMap = tileMap;
-
         onTileMapGenerated.Invoke();
-    }
-
-    public string ToString(bool flip)
-    {
-        if (_tileMap == null) return "Tile map not generated yet.";
-
-        int rows = _tileMap.GetLength(0);
-        int cols = _tileMap.GetLength(1);
-
-        var sb = new StringBuilder();
-
-        int start = flip ? rows - 1 : 0;
-        int end = flip ? -1 : rows;
-        int step = flip ? -1 : 1;
-
-        for (int i = start; i != end; i += step)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                sb.Append((_tileMap[i, j] == 0 ? '0' : '#')); //Replaces 1 with '#' making it easier to visualize
-            }
-            sb.AppendLine();
-        }
-
-        return sb.ToString();
     }
 
     public int[,] GetTileMap()
     {
         return _tileMap.Clone() as int[,];
     }
-
-    [Button]
-    public void PrintTileMap()
-    {
-        Debug.Log(ToString(true));
-    }
-
-
 }

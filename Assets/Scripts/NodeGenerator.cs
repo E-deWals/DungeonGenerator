@@ -21,8 +21,6 @@ public class NodeGenerator : MonoBehaviour
 
     public IEnumerator HandleNodes(int fromRoom, int toRoom)
     {
-
-        //connected rooms
         if (!connectedRooms.ContainsKey(fromRoom))
         {
             connectedRooms[fromRoom] = new();
@@ -46,6 +44,7 @@ public class NodeGenerator : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        //draws all door / room connections
         if (doorGenerator == null) {  return; }
         roomList = doorGenerator.roomList;
 
